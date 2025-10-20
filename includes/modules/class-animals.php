@@ -54,22 +54,23 @@ class Stammbaum_Animals {
         $animal_data = array(
             'name' => sanitize_text_field($data['name']),
             'gender' => sanitize_text_field($data['gender']),
+            'animal_type' => !empty($data['animal_type']) ? sanitize_text_field($data['animal_type']) : 'breeding',
             'birth_date' => !empty($data['birth_date']) ? sanitize_text_field($data['birth_date']) : null,
-            'breed' => sanitize_text_field($data['breed']),
-            'color' => sanitize_text_field($data['color']),
-            'genetics' => sanitize_text_field($data['genetics']),
-            'registration_number' => sanitize_text_field($data['registration_number']),
+            'breed' => !empty($data['breed']) ? sanitize_text_field($data['breed']) : '',
+            'color' => !empty($data['color']) ? sanitize_text_field($data['color']) : '',
+            'genetics' => !empty($data['genetics']) ? sanitize_text_field($data['genetics']) : '',
+            'registration_number' => !empty($data['registration_number']) ? sanitize_text_field($data['registration_number']) : '',
             'mother_id' => !empty($data['mother_id']) ? intval($data['mother_id']) : null,
             'father_id' => !empty($data['father_id']) ? intval($data['father_id']) : null,
             'maternal_grandmother_id' => !empty($data['maternal_grandmother_id']) ? intval($data['maternal_grandmother_id']) : null,
             'maternal_grandfather_id' => !empty($data['maternal_grandfather_id']) ? intval($data['maternal_grandfather_id']) : null,
             'paternal_grandmother_id' => !empty($data['paternal_grandmother_id']) ? intval($data['paternal_grandmother_id']) : null,
             'paternal_grandfather_id' => !empty($data['paternal_grandfather_id']) ? intval($data['paternal_grandfather_id']) : null,
-            'profile_image' => sanitize_text_field($data['profile_image']),
+            'profile_image' => !empty($data['profile_image']) ? sanitize_text_field($data['profile_image']) : '',
             'is_breeding_animal' => isset($data['is_breeding_animal']) ? (bool)$data['is_breeding_animal'] : false,
             'is_external' => isset($data['is_external']) ? (bool)$data['is_external'] : false,
-            'external_info' => sanitize_textarea_field($data['external_info']),
-            'description' => sanitize_textarea_field($data['description'])
+            'external_info' => !empty($data['external_info']) ? sanitize_textarea_field($data['external_info']) : '',
+            'description' => !empty($data['description']) ? sanitize_textarea_field($data['description']) : ''
         );
         
         if (isset($data['id']) && !empty($data['id'])) {
@@ -112,6 +113,13 @@ class Stammbaum_Animals {
         }
         
         return $animal;
+    }
+    
+    /**
+     * Get all animals (alias for get_animals)
+     */
+    public function get_all_animals($args = array()) {
+        return $this->get_animals($args);
     }
     
     /**
