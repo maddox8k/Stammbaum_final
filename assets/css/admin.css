@@ -1,0 +1,32 @@
+/* Stammbaum Manager - Admin Styles */
+.stammbaum-admin-wrap {
+    max-width: 1200px;
+    margin: 20px 0;
+}
+
+.stammbaum-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.stammbaum-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.stammbaum-button {
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.stammbaum-button:hover {
+    background: #135e96;
+}
