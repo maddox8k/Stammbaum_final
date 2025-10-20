@@ -38,22 +38,48 @@ class Stammbaum_Admin_Menu {
     }
     
     public function dashboard_page() {
-        echo '<div class="wrap"><h1>Stammbaum Manager Dashboard</h1><p>Dashboard wird geladen...</p></div>';
+        $template_file = STAMMBAUM_MANAGER_PLUGIN_DIR . 'templates/admin/dashboard.php';
+        if (file_exists($template_file)) {
+            include $template_file;
+        } else {
+            echo '<div class="wrap"><h1>Stammbaum Manager Dashboard</h1><p>Template nicht gefunden: ' . esc_html($template_file) . '</p></div>';
+        }
     }
     
     public function animals_page() {
-        echo '<div class="wrap"><h1>Tiere</h1><p>Tier-Verwaltung wird geladen...</p></div>';
+        $template_file = STAMMBAUM_MANAGER_PLUGIN_DIR . 'templates/admin/animals-list.php';
+        if (file_exists($template_file)) {
+            include $template_file;
+        } else {
+            echo '<div class="wrap"><h1>Tiere</h1><p>Template nicht gefunden</p></div>';
+        }
     }
     
     public function litters_page() {
-        echo '<div class="wrap"><h1>Würfe</h1><p>Wurf-Verwaltung wird geladen...</p></div>';
+        $template_file = STAMMBAUM_MANAGER_PLUGIN_DIR . 'templates/admin/litters-list.php';
+        if (file_exists($template_file)) {
+            include $template_file;
+        } else {
+            echo '<div class="wrap"><h1>Würfe</h1><p>Template wird noch erstellt...</p></div>';
+        }
     }
     
     public function waitlist_page() {
-        echo '<div class="wrap"><h1>Wartelisten</h1><p>Wartelisten-Verwaltung wird geladen...</p></div>';
+        $template_file = STAMMBAUM_MANAGER_PLUGIN_DIR . 'templates/admin/waitlist.php';
+        if (file_exists($template_file)) {
+            include $template_file;
+        } else {
+            echo '<div class="wrap"><h1>Wartelisten</h1><p>Template wird noch erstellt...</p></div>';
+        }
     }
     
     public function settings_page() {
-        echo '<div class="wrap"><h1>Einstellungen</h1><p>Einstellungen werden geladen...</p></div>';
+        $template_file = STAMMBAUM_MANAGER_PLUGIN_DIR . 'templates/admin/settings.php';
+        if (file_exists($template_file)) {
+            include $template_file;
+        } else {
+            echo '<div class="wrap"><h1>Einstellungen</h1><p>Template wird noch erstellt...</p></div>';
+        }
     }
 }
+
