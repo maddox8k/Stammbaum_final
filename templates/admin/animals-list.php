@@ -44,7 +44,7 @@ $animals = $animals_module->get_all_animals();
                         </td>
                         <td><strong><?php echo esc_html($animal['name']); ?></strong></td>
                         <td><?php echo esc_html($animal['gender']); ?></td>
-                        <td><?php echo esc_html($animal['animal_type']); ?></td>
+                        <td><?php echo $animal['is_breeding_animal'] ? __('Zuchttier', 'stammbaum-manager') : ($animal['is_external'] ? __('Extern', 'stammbaum-manager') : __('Eigenes Tier', 'stammbaum-manager')); ?></td>
                         <td><?php echo $animal['birth_date'] ? Stammbaum_Core::format_date($animal['birth_date']) : '-'; ?></td>
                         <td>
                             <button class="button button-small edit-animal" data-id="<?php echo $animal['id']; ?>">
@@ -97,15 +97,17 @@ $animals = $animals_module->get_all_animals();
                     </td>
                 </tr>
                 <tr>
-                    <th><label for="animal-type"><?php _e('Typ *', 'stammbaum-manager'); ?></label></th>
+                    <th><?php _e('Eigenschaften', 'stammbaum-manager'); ?></th>
                     <td>
-                        <select id="animal-type" name="animal_type" required>
-                            <option value=""><?php _e('Bitte wählen', 'stammbaum-manager'); ?></option>
-                            <option value="breeding"><?php _e('Zuchttier', 'stammbaum-manager'); ?></option>
-                            <option value="stud"><?php _e('Deckrüde', 'stammbaum-manager'); ?></option>
-                            <option value="parent"><?php _e('Elterntier', 'stammbaum-manager'); ?></option>
-                            <option value="grandparent"><?php _e('Großelterntier', 'stammbaum-manager'); ?></option>
-                        </select>
+                        <label>
+                            <input type="checkbox" id="is-breeding-animal" name="is_breeding_animal" value="1">
+                            <?php _e('Zuchttier', 'stammbaum-manager'); ?>
+                        </label>
+                        <br>
+                        <label>
+                            <input type="checkbox" id="is-external" name="is_external" value="1">
+                            <?php _e('Externes Tier (z.B. Deckrüde, Großeltern)', 'stammbaum-manager'); ?>
+                        </label>
                     </td>
                 </tr>
                 <tr>
@@ -213,7 +215,8 @@ jQuery(document).ready(function($) {
                     $('#animal-id').val(animal.id);
                     $('#animal-name').val(animal.name);
                     $('#animal-gender').val(animal.gender);
-                    $('#animal-type').val(animal.animal_type);
+                    $('#is-breeding-animal').prop('checked', animal.is_breeding_animal == 1);
+                    $('#is-external').prop('checked', animal.is_external == 1);
                     $('#animal-birth-date').val(animal.birth_date);
                     $('#animal-breed').val(animal.breed);
                     $('#animal-color').val(animal.color);

@@ -308,7 +308,12 @@ class Stammbaum_Animals {
         Stammbaum_Core::verify_ajax_nonce('stammbaum_manager_admin_nonce');
         Stammbaum_Core::check_capability('manage_stammbaum');
         
-        $data = Stammbaum_Core::sanitize_array($_POST['animal_data']);
+        // Accept both animal_data array and direct POST data
+        if (isset($_POST['animal_data'])) {
+            $data = Stammbaum_Core::sanitize_array($_POST['animal_data']);
+        } else {
+            $data = $_POST;
+        }
         
         $animal_id = $this->save_animal($data);
         
