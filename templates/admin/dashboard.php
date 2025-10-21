@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Dashboard Template
+ * Admin Dashboard Template - Modern Glass Design
  */
 
 if (!defined('ABSPATH')) exit;
@@ -29,43 +29,43 @@ $recent_applications = $wpdb->get_results("SELECT * FROM {$applications_table} O
 ?>
 
 <div class="wrap stammbaum-admin-wrap">
-    <h1><?php _e('Stammbaum Manager Dashboard', 'stammbaum-manager'); ?></h1>
+    <h1>🐕 <?php _e('Stammbaum Manager Dashboard', 'stammbaum-manager'); ?></h1>
     
     <!-- Statistics Cards -->
-    <div class="stammbaum-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 20px 0;">
+    <div class="stammbaum-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin: 30px 0;">
         
-        <div class="stammbaum-card" style="text-align: center; padding: 30px;">
-            <div style="font-size: 48px; color: #2271b1; margin-bottom: 10px;">🐕</div>
-            <h2 style="margin: 0; font-size: 36px;"><?php echo $total_animals; ?></h2>
-            <p style="margin: 5px 0 0 0; color: #666;"><?php _e('Tiere', 'stammbaum-manager'); ?></p>
-            <a href="<?php echo admin_url('admin.php?page=stammbaum-animals'); ?>" class="button" style="margin-top: 10px;">
+        <div class="stat-card">
+            <div class="icon">🐕</div>
+            <h2><?php echo $total_animals; ?></h2>
+            <p><?php _e('Tiere', 'stammbaum-manager'); ?></p>
+            <a href="<?php echo admin_url('admin.php?page=stammbaum-animals'); ?>" class="button">
                 <?php _e('Verwalten', 'stammbaum-manager'); ?>
             </a>
         </div>
         
-        <div class="stammbaum-card" style="text-align: center; padding: 30px;">
-            <div style="font-size: 48px; color: #2271b1; margin-bottom: 10px;">👶</div>
-            <h2 style="margin: 0; font-size: 36px;"><?php echo $total_puppies; ?></h2>
-            <p style="margin: 5px 0 0 0; color: #666;"><?php _e('Welpen', 'stammbaum-manager'); ?></p>
-            <a href="<?php echo admin_url('edit.php?post_type=welpe'); ?>" class="button" style="margin-top: 10px;">
+        <div class="stat-card">
+            <div class="icon">👶</div>
+            <h2><?php echo $total_puppies; ?></h2>
+            <p><?php _e('Welpen', 'stammbaum-manager'); ?></p>
+            <a href="<?php echo admin_url('edit.php?post_type=welpe'); ?>" class="button">
                 <?php _e('Verwalten', 'stammbaum-manager'); ?>
             </a>
         </div>
         
-        <div class="stammbaum-card" style="text-align: center; padding: 30px;">
-            <div style="font-size: 48px; color: #2271b1; margin-bottom: 10px;">🐾</div>
-            <h2 style="margin: 0; font-size: 36px;"><?php echo $total_litters; ?></h2>
-            <p style="margin: 5px 0 0 0; color: #666;"><?php _e('Würfe', 'stammbaum-manager'); ?></p>
-            <a href="<?php echo admin_url('admin.php?page=stammbaum-litters'); ?>" class="button" style="margin-top: 10px;">
+        <div class="stat-card">
+            <div class="icon">🐾</div>
+            <h2><?php echo $total_litters; ?></h2>
+            <p><?php _e('Würfe', 'stammbaum-manager'); ?></p>
+            <a href="<?php echo admin_url('admin.php?page=stammbaum-litters'); ?>" class="button">
                 <?php _e('Verwalten', 'stammbaum-manager'); ?>
             </a>
         </div>
         
-        <div class="stammbaum-card" style="text-align: center; padding: 30px;">
-            <div style="font-size: 48px; color: #d63638; margin-bottom: 10px;">📋</div>
-            <h2 style="margin: 0; font-size: 36px;"><?php echo $pending_applications; ?></h2>
-            <p style="margin: 5px 0 0 0; color: #666;"><?php _e('Offene Anmeldungen', 'stammbaum-manager'); ?></p>
-            <a href="<?php echo admin_url('admin.php?page=stammbaum-waitlist'); ?>" class="button button-primary" style="margin-top: 10px;">
+        <div class="stat-card">
+            <div class="icon">📋</div>
+            <h2 style="color: <?php echo $pending_applications > 0 ? '#ef4444' : '#10b981'; ?>;"><?php echo $pending_applications; ?></h2>
+            <p><?php _e('Offene Anmeldungen', 'stammbaum-manager'); ?></p>
+            <a href="<?php echo admin_url('admin.php?page=stammbaum-waitlist'); ?>" class="button">
                 <?php _e('Bearbeiten', 'stammbaum-manager'); ?>
             </a>
         </div>
@@ -77,7 +77,7 @@ $recent_applications = $wpdb->get_results("SELECT * FROM {$applications_table} O
         
         <!-- Recent Animals -->
         <div class="stammbaum-card">
-            <h2><?php _e('Neueste Tiere', 'stammbaum-manager'); ?></h2>
+            <h2 style="margin-top: 0; color: #1e293b;">✨ <?php _e('Neueste Tiere', 'stammbaum-manager'); ?></h2>
             <?php if ($recent_animals): ?>
                 <table class="wp-list-table widefat fixed striped">
                     <thead>
@@ -92,27 +92,30 @@ $recent_applications = $wpdb->get_results("SELECT * FROM {$applications_table} O
                             <tr>
                                 <td><strong><?php echo esc_html($animal->name); ?></strong></td>
                                 <td><?php echo esc_html($animal->gender); ?></td>
-                                <td><?php echo esc_html($animal->animal_type); ?></td>
+                                <td><?php echo esc_html($animal->animal_type ?? 'breeding'); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <p style="text-align: right; margin-top: 10px;">
-                    <a href="<?php echo admin_url('admin.php?page=stammbaum-animals'); ?>" class="button">
+                <p style="text-align: right; margin-top: 15px;">
+                    <a href="<?php echo admin_url('admin.php?page=stammbaum-animals'); ?>" class="button button-primary">
                         <?php _e('Alle Tiere anzeigen', 'stammbaum-manager'); ?> →
                     </a>
                 </p>
             <?php else: ?>
-                <p><?php _e('Noch keine Tiere vorhanden.', 'stammbaum-manager'); ?></p>
-                <a href="<?php echo admin_url('admin.php?page=stammbaum-animals'); ?>" class="button button-primary">
-                    <?php _e('Erstes Tier hinzufügen', 'stammbaum-manager'); ?>
-                </a>
+                <div style="text-align: center; padding: 40px 20px; background: rgba(99, 102, 241, 0.05); border-radius: 15px; border: 2px dashed rgba(99, 102, 241, 0.2);">
+                    <div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;">🐕</div>
+                    <p style="color: #64748b; margin-bottom: 20px;"><?php _e('Noch keine Tiere vorhanden.', 'stammbaum-manager'); ?></p>
+                    <a href="<?php echo admin_url('admin.php?page=stammbaum-animals'); ?>" class="button button-primary">
+                        <?php _e('Erstes Tier hinzufügen', 'stammbaum-manager'); ?>
+                    </a>
+                </div>
             <?php endif; ?>
         </div>
         
         <!-- Recent Litters -->
         <div class="stammbaum-card">
-            <h2><?php _e('Neueste Würfe', 'stammbaum-manager'); ?></h2>
+            <h2 style="margin-top: 0; color: #1e293b;">🐾 <?php _e('Neueste Würfe', 'stammbaum-manager'); ?></h2>
             <?php if ($recent_litters): ?>
                 <table class="wp-list-table widefat fixed striped">
                     <thead>
@@ -130,16 +133,19 @@ $recent_applications = $wpdb->get_results("SELECT * FROM {$applications_table} O
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <p style="text-align: right; margin-top: 10px;">
-                    <a href="<?php echo admin_url('admin.php?page=stammbaum-litters'); ?>" class="button">
+                <p style="text-align: right; margin-top: 15px;">
+                    <a href="<?php echo admin_url('admin.php?page=stammbaum-litters'); ?>" class="button button-primary">
                         <?php _e('Alle Würfe anzeigen', 'stammbaum-manager'); ?> →
                     </a>
                 </p>
             <?php else: ?>
-                <p><?php _e('Noch keine Würfe geplant.', 'stammbaum-manager'); ?></p>
-                <a href="<?php echo admin_url('admin.php?page=stammbaum-litters'); ?>" class="button button-primary">
-                    <?php _e('Ersten Wurf planen', 'stammbaum-manager'); ?>
-                </a>
+                <div style="text-align: center; padding: 40px 20px; background: rgba(99, 102, 241, 0.05); border-radius: 15px; border: 2px dashed rgba(99, 102, 241, 0.2);">
+                    <div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;">🐾</div>
+                    <p style="color: #64748b; margin-bottom: 20px;"><?php _e('Noch keine Würfe geplant.', 'stammbaum-manager'); ?></p>
+                    <a href="<?php echo admin_url('admin.php?page=stammbaum-litters'); ?>" class="button button-primary">
+                        <?php _e('Ersten Wurf planen', 'stammbaum-manager'); ?>
+                    </a>
+                </div>
             <?php endif; ?>
         </div>
         
@@ -147,7 +153,7 @@ $recent_applications = $wpdb->get_results("SELECT * FROM {$applications_table} O
     
     <!-- Recent Applications -->
     <div class="stammbaum-card" style="margin-top: 20px;">
-        <h2><?php _e('Neueste Wartelisten-Anmeldungen', 'stammbaum-manager'); ?></h2>
+        <h2 style="margin-top: 0; color: #1e293b;">📋 <?php _e('Neueste Wartelisten-Anmeldungen', 'stammbaum-manager'); ?></h2>
         <?php if ($recent_applications): ?>
             <table class="wp-list-table widefat fixed striped">
                 <thead>
@@ -175,48 +181,37 @@ $recent_applications = $wpdb->get_results("SELECT * FROM {$applications_table} O
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <p style="text-align: right; margin-top: 10px;">
-                <a href="<?php echo admin_url('admin.php?page=stammbaum-waitlist'); ?>" class="button">
+            <p style="text-align: right; margin-top: 15px;">
+                <a href="<?php echo admin_url('admin.php?page=stammbaum-waitlist'); ?>" class="button button-primary">
                     <?php _e('Alle Anmeldungen anzeigen', 'stammbaum-manager'); ?> →
                 </a>
             </p>
         <?php else: ?>
-            <p><?php _e('Noch keine Wartelisten-Anmeldungen vorhanden.', 'stammbaum-manager'); ?></p>
+            <div style="text-align: center; padding: 40px 20px; background: rgba(99, 102, 241, 0.05); border-radius: 15px; border: 2px dashed rgba(99, 102, 241, 0.2);">
+                <div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;">📋</div>
+                <p style="color: #64748b;"><?php _e('Noch keine Wartelisten-Anmeldungen vorhanden.', 'stammbaum-manager'); ?></p>
+            </div>
         <?php endif; ?>
     </div>
     
     <!-- Quick Links -->
-    <div class="stammbaum-card" style="margin-top: 20px; background: #f0f6fc;">
-        <h2><?php _e('Schnellzugriff', 'stammbaum-manager'); ?></h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-            <a href="<?php echo admin_url('admin.php?page=stammbaum-animals'); ?>" class="button button-large">
-                🐕 <?php _e('Neues Tier hinzufügen', 'stammbaum-manager'); ?>
+    <div class="stammbaum-card" style="margin-top: 20px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1)); border: 2px solid rgba(99, 102, 241, 0.2);">
+        <h2 style="margin-top: 0; color: #1e293b;">⚡ <?php _e('Schnellzugriff', 'stammbaum-manager'); ?></h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <a href="<?php echo admin_url('admin.php?page=stammbaum-animals'); ?>" class="button button-large" style="background: white; color: #6366f1; border: 2px solid #6366f1; font-weight: 600;">
+                🐕 <?php _e('Neues Tier', 'stammbaum-manager'); ?>
             </a>
-            <a href="<?php echo admin_url('post-new.php?post_type=welpe'); ?>" class="button button-large">
-                👶 <?php _e('Neuen Welpen hinzufügen', 'stammbaum-manager'); ?>
+            <a href="<?php echo admin_url('post-new.php?post_type=welpe'); ?>" class="button button-large" style="background: white; color: #6366f1; border: 2px solid #6366f1; font-weight: 600;">
+                👶 <?php _e('Neuer Welpe', 'stammbaum-manager'); ?>
             </a>
-            <a href="<?php echo admin_url('admin.php?page=stammbaum-litters'); ?>" class="button button-large">
-                🐾 <?php _e('Neuen Wurf planen', 'stammbaum-manager'); ?>
+            <a href="<?php echo admin_url('admin.php?page=stammbaum-litters'); ?>" class="button button-large" style="background: white; color: #6366f1; border: 2px solid #6366f1; font-weight: 600;">
+                🐾 <?php _e('Neuer Wurf', 'stammbaum-manager'); ?>
             </a>
-            <a href="<?php echo admin_url('admin.php?page=stammbaum-settings'); ?>" class="button button-large">
+            <a href="<?php echo admin_url('admin.php?page=stammbaum-settings'); ?>" class="button button-large" style="background: white; color: #6366f1; border: 2px solid #6366f1; font-weight: 600;">
                 ⚙️ <?php _e('Einstellungen', 'stammbaum-manager'); ?>
             </a>
         </div>
     </div>
     
 </div>
-
-<style>
-.status-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: bold;
-}
-.status-pending { background: #ffc107; color: #000; }
-.status-confirmed { background: #4caf50; color: #fff; }
-.status-approved { background: #2196f3; color: #fff; }
-.status-rejected { background: #f44336; color: #fff; }
-</style>
 
