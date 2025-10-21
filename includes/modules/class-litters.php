@@ -66,6 +66,18 @@ class Stammbaum_Litters {
             $father_name = $father ? $father->name : '';
         }
         
+        if (empty($data['mother_id']) || empty($data['father_id'])) {
+            return false;
+        }
+
+        // Accept both "id" and "litter_id" keys when updating existing litters
+        $litter_id = 0;
+        if (!empty($data['id'])) {
+            $litter_id = intval($data['id']);
+        } elseif (!empty($data['litter_id'])) {
+            $litter_id = intval($data['litter_id']);
+        }
+
         $litter_data = array(
             'litter_name' => isset($data['litter_name']) ? sanitize_text_field($data['litter_name']) : '',
             'mother_id' => !empty($data['mother_id']) ? intval($data['mother_id']) : null,
@@ -91,11 +103,10 @@ class Stammbaum_Litters {
             'notes' => isset($data['notes']) ? sanitize_textarea_field($data['notes']) : ''
         );
         
-        if (isset($data['id']) && !empty($data['id'])) {
+        if ($litter_id > 0) {
             // Update existing litter
-            $litter_id = intval($data['id']);
             $result = $wpdb->update($this->table_name, $litter_data, array('id' => $litter_id));
-            
+
             if ($result !== false) {
                 return $litter_id;
             }
