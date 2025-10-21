@@ -181,6 +181,15 @@ $animals = $animals_module->get_all_animals();
 }
 </style>
 
+<!-- Pedigree Modal -->
+<div id="pedigree-modal" class="stammbaum-modal" style="display: none; z-index: 100000;">
+    <div class="stammbaum-modal-content" style="max-width: 1200px;">
+        <span class="stammbaum-modal-close stammbaum-pedigree-modal-close">&times;</span>
+        <h2>🌳 <?php _e('Stammbaum', 'stammbaum-manager'); ?></h2>
+        <div id="pedigree-content"></div>
+    </div>
+</div>
+
 <script>
 jQuery(document).ready(function($) {
     // Open modal for new animal
@@ -197,8 +206,8 @@ jQuery(document).ready(function($) {
         $('#animal-modal').fadeOut();
     });
     
-    // Edit animal
-    $('.edit-animal').on('click', function() {
+    // Edit animal (delegated event)
+    $(document).on('click', '.edit-animal', function() {
         var animalId = $(this).data('id');
         
         $.ajax({
@@ -258,8 +267,8 @@ jQuery(document).ready(function($) {
         });
     });
     
-    // Delete animal
-    $('.delete-animal').on('click', function() {
+    // Delete animal (delegated event)
+    $(document).on('click', '.delete-animal', function() {
         if (!confirm('<?php _e('Tier wirklich löschen?', 'stammbaum-manager'); ?>')) {
             return;
         }
@@ -283,6 +292,66 @@ jQuery(document).ready(function($) {
             }
         });
     });
+    
+    // View pedigree (delegated event)
+    $(document).on('click', '.view-pedigree', function() {
+        var animalId = $(this).data('id');
+        
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'stammbaum_get_pedigree',
+                nonce: '<?php echo wp_create_nonce('stammbaum_manager_admin_nonce'); ?>',
+                animal_id: animalId
+            },
+            success: function(response) {
+                if (response.success) {
+                    var pedigree = response.data;
+                    displayPedigree(pedigree);
+                    $('#pedigree-modal').fadeIn();
+                } else {
+                    alert('<?php _e('Stammbaum konnte nicht geladen werden', 'stammbaum-manager'); ?>');
+                }
+            }
+        });
+    });
+    
+    // Close pedigree modal
+    $('.stammbaum-pedigree-modal-close').on('click', function() {
+        $('#pedigree-modal').fadeOut();
+    });
+    
+    // Display pedigree function
+    function displayPedigree(pedigree) {
+        var html = '<div class="pedigree-tree">';
+        
+        // Main animal
+        html += '<div class="pedigree-generation-label">🐕 ' + pedigree.animal.name + '</div>';
+        
+        // Parents
+        if (pedigree.parents.mother || pedigree.parents.father) {
+            html += '<div class="pedigree-generation-label">Eltern</div>';
+            if (pedigree.parents.mother) {
+                html += '<div class="pedigree-animal"><h4>♀ ' + pedigree.parents.mother.name + '</h4><p>' + (pedigree.parents.mother.breed || '') + '</p></div>';
+            }
+            if (pedigree.parents.father) {
+                html += '<div class="pedigree-animal"><h4>♂ ' + pedigree.parents.father.name + '</h4><p>' + (pedigree.parents.father.breed || '') + '</p></div>';
+            }
+        }
+        
+        // Grandparents
+        if (Object.keys(pedigree.grandparents).length > 0) {
+            html += '<div class="pedigree-generation-label">Großeltern</div>';
+            for (var key in pedigree.grandparents) {
+                var gp = pedigree.grandparents[key];
+                html += '<div class="pedigree-animal"><h4>' + gp.name + '</h4><p>' + (gp.breed || '') + '</p></div>';
+            }
+        }
+        
+        html += '</div>';
+        $('#pedigree-content').html(html);
+    }
     
     // Search animals
     $('#animal-search').on('keyup', function() {

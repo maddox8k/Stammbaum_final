@@ -206,8 +206,8 @@ jQuery(document).ready(function($) {
         $('#litter-modal').fadeOut();
     });
     
-    // Edit litter
-    $('.edit-litter').on('click', function() {
+    // Edit litter (delegated event)
+    $(document).on('click', '.edit-litter', function() {
         var litterId = $(this).data('id');
         
         $.ajax({
@@ -267,8 +267,8 @@ jQuery(document).ready(function($) {
         });
     });
     
-    // Delete litter
-    $('.delete-litter').on('click', function() {
+    // Delete litter (delegated event)
+    $(document).on('click', '.delete-litter', function() {
         if (!confirm('<?php _e('Wurf wirklich löschen?', 'stammbaum-manager'); ?>')) {
             return;
         }
