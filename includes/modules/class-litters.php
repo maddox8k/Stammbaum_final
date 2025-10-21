@@ -48,29 +48,47 @@ class Stammbaum_Litters {
     public function save_litter($data) {
         global $wpdb;
         
+        // Get animal names if IDs are provided
+        $mother_name = '';
+        $father_name = '';
+        if (!empty($data['mother_id'])) {
+            $mother = $wpdb->get_row($wpdb->prepare(
+                "SELECT name FROM {$wpdb->prefix}stammbaum_animals WHERE id = %d",
+                intval($data['mother_id'])
+            ));
+            $mother_name = $mother ? $mother->name : '';
+        }
+        if (!empty($data['father_id'])) {
+            $father = $wpdb->get_row($wpdb->prepare(
+                "SELECT name FROM {$wpdb->prefix}stammbaum_animals WHERE id = %d",
+                intval($data['father_id'])
+            ));
+            $father_name = $father ? $father->name : '';
+        }
+        
         $litter_data = array(
-            'litter_name' => sanitize_text_field($data['litter_name']),
+            'litter_name' => isset($data['litter_name']) ? sanitize_text_field($data['litter_name']) : '',
             'mother_id' => !empty($data['mother_id']) ? intval($data['mother_id']) : null,
             'father_id' => !empty($data['father_id']) ? intval($data['father_id']) : null,
-            'breeder_name' => sanitize_text_field($data['breeder_name']),
-            'breeder_email' => sanitize_email($data['breeder_email']),
-            'breeder_phone' => sanitize_text_field($data['breeder_phone']),
-            'mother_name' => sanitize_text_field($data['mother_name']),
-            'mother_image' => sanitize_text_field($data['mother_image']),
-            'mother_details' => sanitize_textarea_field($data['mother_details']),
-            'father_name' => sanitize_text_field($data['father_name']),
-            'father_image' => sanitize_text_field($data['father_image']),
-            'father_details' => sanitize_textarea_field($data['father_details']),
-            'genetics' => sanitize_textarea_field($data['genetics']),
-            'colors' => sanitize_textarea_field($data['colors']),
-            'health_tests' => sanitize_textarea_field($data['health_tests']),
+            'breeder_name' => isset($data['breeder_name']) ? sanitize_text_field($data['breeder_name']) : '',
+            'breeder_email' => isset($data['breeder_email']) ? sanitize_email($data['breeder_email']) : '',
+            'breeder_phone' => isset($data['breeder_phone']) ? sanitize_text_field($data['breeder_phone']) : '',
+            'mother_name' => !empty($mother_name) ? $mother_name : (isset($data['mother_name']) ? sanitize_text_field($data['mother_name']) : ''),
+            'mother_image' => isset($data['mother_image']) ? sanitize_text_field($data['mother_image']) : '',
+            'mother_details' => isset($data['mother_details']) ? sanitize_textarea_field($data['mother_details']) : '',
+            'father_name' => !empty($father_name) ? $father_name : (isset($data['father_name']) ? sanitize_text_field($data['father_name']) : ''),
+            'father_image' => isset($data['father_image']) ? sanitize_text_field($data['father_image']) : '',
+            'father_details' => isset($data['father_details']) ? sanitize_textarea_field($data['father_details']) : '',
+            'genetics' => isset($data['genetics']) ? sanitize_textarea_field($data['genetics']) : '',
+            'colors' => isset($data['colors']) ? sanitize_textarea_field($data['colors']) : '',
+            'health_tests' => isset($data['health_tests']) ? sanitize_textarea_field($data['health_tests']) : '',
             'expected_date' => !empty($data['expected_date']) ? sanitize_text_field($data['expected_date']) : null,
             'actual_date' => !empty($data['actual_date']) ? sanitize_text_field($data['actual_date']) : null,
             'expected_puppies' => !empty($data['expected_puppies']) ? intval($data['expected_puppies']) : 0,
             'form_fields' => !empty($data['form_fields']) ? wp_json_encode($data['form_fields']) : null,
-            'status' => sanitize_text_field($data['status']),
+            'status' => isset($data['status']) ? sanitize_text_field($data['status']) : 'planned',
             'max_applications' => !empty($data['max_applications']) ? intval($data['max_applications']) : 0,
-            'notes' => sanitize_textarea_field($data['notes'])
+            'notes' => isset($data['notes']) ? sanitize_textarea_field($data['notes']) : ''
         );
         
         if (isset($data['id']) && !empty($data['id'])) {
@@ -220,7 +238,12 @@ class Stammbaum_Litters {
         Stammbaum_Core::verify_ajax_nonce('stammbaum_manager_admin_nonce');
         Stammbaum_Core::check_capability('manage_breeding');
         
-        $data = Stammbaum_Core::sanitize_array($_POST['litter_data']);
+        // Accept both litter_data array and direct POST data
+        if (isset($_POST['litter_data'])) {
+            $data = Stammbaum_Core::sanitize_array($_POST['litter_data']);
+        } else {
+            $data = $_POST;
+        }
         
         $litter_id = $this->save_litter($data);
         

@@ -42,6 +42,13 @@ class Stammbaum_Waitlist {
     }
     
     /**
+     * Save application (alias for submit_application)
+     */
+    public function save_application($data) {
+        return $this->submit_application($data);
+    }
+    
+    /**
      * Submit application
      */
     public function submit_application($data) {
@@ -51,11 +58,12 @@ class Stammbaum_Waitlist {
             'litter_id' => intval($data['litter_id']),
             'applicant_name' => sanitize_text_field($data['applicant_name']),
             'applicant_email' => sanitize_email($data['applicant_email']),
-            'applicant_phone' => sanitize_text_field($data['applicant_phone']),
+            'applicant_phone' => isset($data['applicant_phone']) ? sanitize_text_field($data['applicant_phone']) : '',
+            'message' => isset($data['message']) ? sanitize_textarea_field($data['message']) : '',
             'form_data' => !empty($data['form_data']) ? wp_json_encode($data['form_data']) : null,
-            'status' => 'pending',
-            'ip_address' => $_SERVER['REMOTE_ADDR'],
-            'user_agent' => $_SERVER['HTTP_USER_AGENT']
+            'status' => isset($data['status']) ? sanitize_text_field($data['status']) : 'pending',
+            'ip_address' => isset($data['ip_address']) ? $data['ip_address'] : (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : ''),
+            'user_agent' => isset($data['user_agent']) ? $data['user_agent'] : (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '')
         );
         
         $result = $wpdb->insert($this->table_name, $application_data);
