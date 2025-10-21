@@ -54,7 +54,6 @@ class Stammbaum_Animals {
         $animal_data = array(
             'name' => sanitize_text_field($data['name']),
             'gender' => sanitize_text_field($data['gender']),
-            'animal_type' => !empty($data['animal_type']) ? sanitize_text_field($data['animal_type']) : 'breeding',
             'birth_date' => !empty($data['birth_date']) ? sanitize_text_field($data['birth_date']) : null,
             'breed' => !empty($data['breed']) ? sanitize_text_field($data['breed']) : '',
             'color' => !empty($data['color']) ? sanitize_text_field($data['color']) : '',

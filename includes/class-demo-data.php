@@ -55,7 +55,6 @@ class Stammbaum_Demo_Data {
         $maternal_grandmother = $animals_module->save_animal(array(
             'name' => 'Luna vom Sternenwald',
             'gender' => 'female',
-            'animal_type' => 'grandparent',
             'birth_date' => '2018-03-15',
             'breed' => 'Deutscher Schäferhund',
             'color' => 'Schwarz-Braun',
@@ -66,7 +65,6 @@ class Stammbaum_Demo_Data {
         $maternal_grandfather = $animals_module->save_animal(array(
             'name' => 'Max vom Bergland',
             'gender' => 'male',
-            'animal_type' => 'grandparent',
             'birth_date' => '2017-08-20',
             'breed' => 'Deutscher Schäferhund',
             'color' => 'Schwarz-Rot',
@@ -77,7 +75,6 @@ class Stammbaum_Demo_Data {
         $paternal_grandmother = $animals_module->save_animal(array(
             'name' => 'Bella vom Sonnenfeld',
             'gender' => 'female',
-            'animal_type' => 'grandparent',
             'birth_date' => '2018-05-10',
             'breed' => 'Deutscher Schäferhund',
             'color' => 'Schwarz-Braun',
@@ -88,7 +85,6 @@ class Stammbaum_Demo_Data {
         $paternal_grandfather = $animals_module->save_animal(array(
             'name' => 'Rocky vom Eichenwald',
             'gender' => 'male',
-            'animal_type' => 'grandparent',
             'birth_date' => '2017-11-05',
             'breed' => 'Deutscher Schäferhund',
             'color' => 'Schwarz',
@@ -100,7 +96,6 @@ class Stammbaum_Demo_Data {
         $mother = $animals_module->save_animal(array(
             'name' => 'Emma vom Rosenpark',
             'gender' => 'female',
-            'animal_type' => 'breeding',
             'birth_date' => '2020-04-12',
             'breed' => 'Deutscher Schäferhund',
             'color' => 'Schwarz-Braun',
@@ -114,7 +109,6 @@ class Stammbaum_Demo_Data {
         $father = $animals_module->save_animal(array(
             'name' => 'Bruno vom Adlerhorst',
             'gender' => 'male',
-            'animal_type' => 'breeding',
             'birth_date' => '2019-09-08',
             'breed' => 'Deutscher Schäferhund',
             'color' => 'Schwarz-Rot',
@@ -129,7 +123,6 @@ class Stammbaum_Demo_Data {
         $female2 = $animals_module->save_animal(array(
             'name' => 'Mia vom Blütental',
             'gender' => 'female',
-            'animal_type' => 'breeding',
             'birth_date' => '2021-02-20',
             'breed' => 'Deutscher Schäferhund',
             'color' => 'Schwarz-Braun',

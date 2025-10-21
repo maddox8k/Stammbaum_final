@@ -23,7 +23,12 @@ class Stammbaum_Core {
     /**
      * Check user capability
      */
-    public static function check_capability($capability = 'manage_stammbaum') {
+    public static function check_capability($capability = 'manage_options') {
+        // Map custom capabilities to manage_options
+        if (in_array($capability, array('manage_stammbaum', 'manage_breeding', 'manage_puppies'))) {
+            $capability = 'manage_options';
+        }
+        
         if (!current_user_can($capability)) {
             wp_send_json_error(array('message' => __('Keine Berechtigung', 'stammbaum-manager')));
             wp_die();
