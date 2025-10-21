@@ -213,5 +213,8 @@ $recent_applications = $wpdb->get_results("SELECT * FROM {$applications_table} O
         </div>
     </div>
     
+    <!-- Demo Data -->
+    <?php Stammbaum_Demo_Data::render_demo_button(); ?>
+    
 </div>
 

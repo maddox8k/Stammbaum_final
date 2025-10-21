@@ -77,6 +77,7 @@ class StammbaumManagerComplete {
             require_once STAMMBAUM_MANAGER_PLUGIN_DIR . 'includes/admin/class-admin-litters.php';
             require_once STAMMBAUM_MANAGER_PLUGIN_DIR . 'includes/admin/class-admin-puppies.php';
             require_once STAMMBAUM_MANAGER_PLUGIN_DIR . 'includes/admin/class-admin-dashboard.php';
+            require_once STAMMBAUM_MANAGER_PLUGIN_DIR . 'includes/class-demo-data.php';
         }
     }
     
