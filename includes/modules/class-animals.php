@@ -51,6 +51,18 @@ class Stammbaum_Animals {
     public function save_animal($data) {
         global $wpdb;
         
+        if (empty($data['name']) || empty($data['gender'])) {
+            return false;
+        }
+
+        // Support both "id" and "animal_id" field names from forms
+        $animal_id = 0;
+        if (!empty($data['id'])) {
+            $animal_id = intval($data['id']);
+        } elseif (!empty($data['animal_id'])) {
+            $animal_id = intval($data['animal_id']);
+        }
+
         $animal_data = array(
             'name' => sanitize_text_field($data['name']),
             'gender' => sanitize_text_field($data['gender']),
@@ -72,11 +84,10 @@ class Stammbaum_Animals {
             'description' => !empty($data['description']) ? sanitize_textarea_field($data['description']) : ''
         );
         
-        if (isset($data['id']) && !empty($data['id'])) {
+        if ($animal_id > 0) {
             // Update existing animal
-            $animal_id = intval($data['id']);
             $result = $wpdb->update($this->table_name, $animal_data, array('id' => $animal_id));
-            
+
             if ($result !== false) {
                 return $animal_id;
             }
