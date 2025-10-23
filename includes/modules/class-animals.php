@@ -77,13 +77,13 @@ class Stammbaum_Animals {
             'maternal_grandfather_id' => !empty($data['maternal_grandfather_id']) ? intval($data['maternal_grandfather_id']) : null,
             'paternal_grandmother_id' => !empty($data['paternal_grandmother_id']) ? intval($data['paternal_grandmother_id']) : null,
             'paternal_grandfather_id' => !empty($data['paternal_grandfather_id']) ? intval($data['paternal_grandfather_id']) : null,
-            'profile_image' => !empty($data['profile_image']) ? sanitize_text_field($data['profile_image']) : '',
-            'is_breeding_animal' => isset($data['is_breeding_animal']) ? (bool)$data['is_breeding_animal'] : false,
-            'is_external' => isset($data['is_external']) ? (bool)$data['is_external'] : false,
+            'profile_image' => !empty($data['profile_image']) ? esc_url_raw($data['profile_image']) : '',
+            'is_breeding_animal' => (!empty($data['is_breeding_animal']) ? 1 : 0),
+            'is_external' => (!empty($data['is_external']) ? 1 : 0),
             'external_info' => !empty($data['external_info']) ? sanitize_textarea_field($data['external_info']) : '',
             'description' => !empty($data['description']) ? sanitize_textarea_field($data['description']) : ''
         );
-        
+
         if ($animal_id > 0) {
             // Update existing animal
             $result = $wpdb->update($this->table_name, $animal_data, array('id' => $animal_id));
@@ -94,13 +94,20 @@ class Stammbaum_Animals {
         } else {
             // Insert new animal
             $result = $wpdb->insert($this->table_name, $animal_data);
-            
+
             if ($result) {
                 return $wpdb->insert_id;
             }
         }
-        
-        return false;
+
+        if (!empty($wpdb->last_error)) {
+            return new WP_Error('database_error', sprintf(
+                __('Datenbankfehler: %s', 'stammbaum-manager'),
+                $wpdb->last_error
+            ));
+        }
+
+        return new WP_Error('unknown_error', __('Unbekannter Fehler beim Speichern des Tieres.', 'stammbaum-manager'));
     }
     
     /**
@@ -328,6 +335,12 @@ class Stammbaum_Animals {
         
         $animal_id = $this->save_animal($data);
         
+        if (is_wp_error($animal_id)) {
+            wp_send_json_error(array(
+                'message' => $animal_id->get_error_message()
+            ));
+        }
+
         if ($animal_id) {
             wp_send_json_success(array(
                 'message' => __('Tier erfolgreich gespeichert', 'stammbaum-manager'),

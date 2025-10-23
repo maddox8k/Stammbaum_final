@@ -127,6 +127,7 @@ $animals = $animals_module->get_all_animals();
                     <td>
                         <input type="text" id="animal-profile-image" name="profile_image" class="regular-text">
                         <button type="button" class="button upload-image-button"><?php _e('Bild hochladen', 'stammbaum-manager'); ?></button>
+                        <div class="image-preview" style="margin-top: 10px;"></div>
                     </td>
                 </tr>
                 <tr>
@@ -197,6 +198,7 @@ jQuery(document).ready(function($) {
         e.preventDefault();
         $('#animal-form')[0].reset();
         $('#animal-id').val('');
+        $('#animal-profile-image').closest('td').find('.image-preview').empty();
         $('#modal-title').text('<?php _e('Neues Tier hinzufügen', 'stammbaum-manager'); ?>');
         $('#animal-modal').fadeIn();
     });
@@ -230,6 +232,12 @@ jQuery(document).ready(function($) {
                     $('#animal-breed').val(animal.breed);
                     $('#animal-color').val(animal.color);
                     $('#animal-profile-image').val(animal.profile_image);
+                    var imagePreview = $('#animal-profile-image').closest('td').find('.image-preview');
+                    if (animal.profile_image) {
+                        imagePreview.html('<img src="' + animal.profile_image + '" style="max-width: 150px; height: auto; border-radius: 4px;">');
+                    } else {
+                        imagePreview.empty();
+                    }
                     $('#animal-description').val(animal.description);
                     $('#modal-title').text('<?php _e('Tier bearbeiten', 'stammbaum-manager'); ?>');
                     $('#animal-modal').fadeIn();
@@ -258,10 +266,11 @@ jQuery(document).ready(function($) {
             data: data,
             success: function(response) {
                 if (response.success) {
-                    alert('<?php _e('Tier gespeichert!', 'stammbaum-manager'); ?>');
+                    alert((response.data && response.data.message) ? response.data.message : '<?php _e('Tier gespeichert!', 'stammbaum-manager'); ?>');
                     location.reload();
                 } else {
-                    alert('<?php _e('Fehler beim Speichern', 'stammbaum-manager'); ?>');
+                    var errorMessage = (response.data && response.data.message) ? response.data.message : '<?php _e('Unbekannter Fehler', 'stammbaum-manager'); ?>';
+                    alert('<?php _e('Fehler beim Speichern', 'stammbaum-manager'); ?>: ' + errorMessage);
                 }
             }
         });
