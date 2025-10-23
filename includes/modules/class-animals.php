@@ -397,7 +397,7 @@ class Stammbaum_Animals {
      * AJAX: Get pedigree
      */
     public function ajax_get_pedigree() {
-        Stammbaum_Core::verify_ajax_nonce();
+        Stammbaum_Core::verify_ajax_nonce('stammbaum_manager_admin_nonce');
         
         $animal_id = intval($_POST['animal_id']);
         $pedigree = $this->get_pedigree($animal_id);
